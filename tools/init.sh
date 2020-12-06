@@ -6,11 +6,8 @@
 # https://github.com/cotes2020/jekyll-theme-chirpy
 # © 2020 Cotes Chung
 # Published under MIT License
-
 set -eu
-
 ACTIONS_WORKFLOW=pages-deploy.yml
-
 help() {
   echo "Usage:"
   echo
@@ -20,10 +17,8 @@ help() {
   echo "     --no-gh              Do not deploy to Github."
   echo "     -h, --help           Print this help information."
 }
-
 check_init() {
   local _has_inited=false
-
   if [[ ! -d docs ]]; then
     if [[ ! -d .github ]]; then
       _has_inited=true # --no-gh
@@ -37,15 +32,12 @@ check_init() {
       fi
     fi
   fi
-
   if $_has_inited; then
     echo "Already initialized."
     exit 0
   fi
 }
-
 init_files() {
-
   if $_no_gh; then
     rm -rf .github
   else
@@ -54,20 +46,14 @@ init_files() {
     mkdir -p .github/workflows
     mv ./${ACTIONS_WORKFLOW}.hook .github/workflows/${ACTIONS_WORKFLOW}
   fi
-
   rm -f .travis.yml
   rm -rf _posts/* docs
-
   git add -A && git add .github -f
   git commit -m "[Automation] Initialize the environment." -q
-
   echo "[INFO] Initialization successful!"
 }
-
 check_init
-
 _no_gh=false
-
 while (($#)); do
   opt="$1"
   case $opt in
@@ -86,5 +72,4 @@ while (($#)); do
       ;;
   esac
 done
-
 init_files
